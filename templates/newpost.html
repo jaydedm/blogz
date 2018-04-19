@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        
+
+<style>
+    .error {color: red
+    }
+</style>
+        <table>
+        <form action = '/' method = 'POST'>
+            <tr>
+                <td>
+                    <label for = 'title'>Title</label>
+                </td>
+                <td>
+                    <input name = 'title' type = text>
+                    <span class = 'error'> {{title_error}}</span>
+                </td>
+            
+            </tr>
+            <tr>
+                <td>
+                    <label for ='body'>Body</label>
+                </td>
+                <td>
+                    <textarea name = 'body'></textarea>
+                    <span class= 'error'>{{body_error}}</span>
+                </td>
+            </tr> 
+        </table>
+        <input type = "submit">      
+        </form>
+{% endblock %}
