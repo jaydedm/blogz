@@ -95,7 +95,42 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         confirmpassword = request.form['confirmpassword']
+        username_error = ''
+        password_error = ''
+        confirm_error = ''
+        existing_error = ''
 
+        if username == '':
+            username_error = "This is not a valid username"
+        if ' ' in username:
+            username_error = "This is not a valid username"
+        if password == '':
+            password_error = "This is not a valid password"
+        if ' ' in password:
+            password_error = "This password is invalid"
+        if len(username) < 3:
+            username_error = "This is not a valid username"
+        if len(password) < 3:
+            password_error = "This is not a valid password"
+        if password != confirmpassword:
+            confirm_error = "Your passwords don't match"
+        existing_user = User.query.filter_by(username=username).first()
+        if not existing_user:
+            existing_error = ''
+        if not existing_user == False:
+            existing_error = 'This user already exists'
+        
+        rules = (username_error == "", password_error == "", 
+        confirm_error == "", existing_error == '')
+        if all(rules):
+            new_user = User(username, password)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect('/')
+        
+        return render_template('signup.html', username_error=username_error, 
+        password_error=password_error, confirm_error=confirm_error,
+        username=username, existing_error=existing_error)
         #need to verify the passwords match. Check user signup assignment.
 
         existing_user = User.query.filter_by(username=username).first()
@@ -103,6 +138,8 @@ def signup():
             new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
+            # TODO - remember this user
+            return redirect ('/')
         else: 
             #return message that they already exist
             return '<h1>Duplicate User</h1>'

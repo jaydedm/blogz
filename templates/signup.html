@@ -2,14 +2,25 @@
 
 {% block content %}
 
+<style> 
+    .error { color :red
+    }
+</style>
+
+<h1>Register for an Account!</h1>
+
 <form action ='/signup' method = 'POST'>
-    <input name = 'username' type = "text" placeholder = "Enter username">
+    <input name = 'username' type = "text" placeholder = "Enter username" value = {{username}}>
+    <span class ='error'>{{username_error}}</span>
     <br>
     <input name = 'password' type ="password" placeholder = "Enter password">
+    <span class = error>{{password_error}}</span>
     <br>
-    <input name = 'confirmpassword' type = "password" placeholder = "Confirm password"
+    <input name = 'confirmpassword' type = "password" placeholder = "Confirm password">
+    <span class ='error'>{{confirm_error}}</span>
     <br>
     <input type = "submit">
+    <p class = 'error'>{{existing_error}}</p>
 
 
 {% endblock %}
