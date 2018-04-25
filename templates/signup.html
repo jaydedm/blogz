@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action ='/signup' method = 'POST'>
+    <input name = 'username' type = "text" placeholder = "Enter username">
+    <br>
+    <input name = 'password' type ="password" placeholder = "Enter password">
+    <br>
+    <input name = 'confirmpassword' type = "password" placeholder = "Confirm password"
+    <br>
+    <input type = "submit">
+
+
+{% endblock %}
