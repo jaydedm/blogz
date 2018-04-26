@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        
+
+<style>
+    h8 {font-size: 10px;
+    font-style: italic}
+</style>
         {% if blogposts|length == 0 %}
         <h2>No Blogposts Yet</h2>
         {% else %}
             {%for post in blogposts%}
             <hr/>
-            <h3><a href ='/?id={{post.id}}'>{{post.title}}</a></h3>
+            <h3><a href ='/blog?id={{post.id}}'>{{post.title}}</a></h3>
             <p>{{post.body}}</p>
+            <h8>Written by: <a href = '/blog?user={{post.author_id}}'>{{post.author.username}}</a></h8>
             {% endfor %}
         {% endif %}
 

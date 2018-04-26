@@ -31,22 +31,29 @@ class Blog(db.Model):
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'signup', 'index']
+    allowed_routes = ['login', 'signup', 'index', 'home']
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/blog', methods=['POST', 'GET'])
 def index():
     
     if request.method == 'GET':
         if 'id' in request.args:
             blog_id = request.args.get('id')
             blogpost = Blog.query.filter_by(id = blog_id)
+
             return render_template('blog.html', blog_id=blog_id, blogpost=blogpost)
+        
+        if 'user' in request.args:
+            user_id = request.args.get('user')
+            blogposts = Blog.query.filter_by(author_id=user_id)
+            return render_template('singleUser.html', blogposts=blogposts, user_id=user_id)
              
         else:     
+            author = User.query.all()
             blogposts = Blog.query.all()
         return render_template('mainblog.html', blogposts=blogposts)
 
@@ -56,7 +63,6 @@ def index():
         title_error = ''
         body_error = ''
         author = session['username'] #change this and in the Blog call below
-        password = session['password']
         author_id = User.query.filter_by(username=author).first()
         print(author_id)
         print('HAAAA')
@@ -95,7 +101,7 @@ def login():
             session['username'] = username
             session['password'] = password
             flash("Logged In")
-            return redirect("/")
+            return redirect("/blog")
         else:
             flash('User password incorrect, or user does not exist', 'error')
             
@@ -154,7 +160,13 @@ def signup():
 @app.route('/logout')
 def logout():
     del session['username']
-    return redirect('/login')
+    return redirect('/blog')
+
+@app.route('/')
+def home():
+    authors = User.query.all()
+    return render_template('index.html', authors = authors)
+
 
 if __name__ == '__main__':
     app.run()
