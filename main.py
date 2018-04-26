@@ -64,8 +64,6 @@ def index():
         body_error = ''
         author = session['username'] #change this and in the Blog call below
         author_id = User.query.filter_by(username=author).first()
-        print(author_id)
-        print('HAAAA')
         title_name = request.form['title']
         body_content = request.form['body']
         if title_name == '':
@@ -81,7 +79,7 @@ def index():
             db.session.commit()
             blogposts = Blog.query.all()
             id = new_blog.id
-            return redirect('/?id=' + str(id))
+            return redirect('/blog?id=' + str(id))
         
 
     return render_template('newpost.html', title_error=title_error, body_error=body_error) 
@@ -165,6 +163,7 @@ def logout():
 @app.route('/')
 def home():
     authors = User.query.all()
+
     return render_template('index.html', authors = authors)
 
 

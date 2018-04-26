@@ -4,7 +4,7 @@
     <ul>
     {% for author in authors %}
         <li>
-            {{author.username}}
+            <a href = '/blog?user={{author.id}}'>{{author.username}}</a>
         </li>
     {% endfor %}
     </ul>

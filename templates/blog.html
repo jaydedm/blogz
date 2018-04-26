@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html>
-
+{% extends 'base.html' %}
+{% block content %}
 <style>
-h1 {text-align: center}
-
+    h8 {font-size: 10px;
+    font-style: italic}
 </style>
-
-
-    <head>
-        <div>
-            <a href='/'>Main Blog Page</a>  <a href="/newpost">Add a Blog Entry</a>
-        </div>
-
-
-        <title>Blogpost</title>
-    </head>
     <body>
             {%for post in blogpost%}
-            <h1>{{post.title}}</h1>
+            <h2>{{post.title}}</h2>
             <p>{{post.body}}</p>
+            <h8>Written by: <a href = '/blog?user={{post.author_id}}'>{{post.author.username}}</a></h8>
             {% endfor %}
     </body>
 </html>
+{% endblock %}
